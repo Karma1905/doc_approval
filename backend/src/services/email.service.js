@@ -1,5 +1,7 @@
 import nodemailer from "nodemailer";
 
+const BASE_URL = process.env.BASE_URL || "http://localhost:8000";
+
 export async function sendApprovalEmail(post) {
   console.log("Attempting to send email...");
   console.log("FROM:", process.env.GMAIL_USER);
@@ -16,8 +18,8 @@ export async function sendApprovalEmail(post) {
       },
     });
 
-    const approveUrl = `http://localhost:8000/api/approve?post_id=${post.id}`;
-    const rejectUrl = `http://localhost:8000/api/reject?post_id=${post.id}`;
+    const approveUrl = `${BASE_URL}/api/approve?post_id=${post.id}`;
+    const rejectUrl = `${BASE_URL}/api/reject?post_id=${post.id}`;
 
     await transporter.sendMail({
       from: process.env.GMAIL_USER,
@@ -37,8 +39,8 @@ Reject: ${rejectUrl}`,
     console.error(err.message);
     console.log({
       title: post.title,
-      approveUrl: `http://localhost:8000/api/approve?post_id=${post.id}`,
-      rejectUrl: `http://localhost:8000/api/reject?post_id=${post.id}`,
+      approveUrl: `${BASE_URL}/api/approve?post_id=${post.id}`,
+      rejectUrl : `${BASE_URL}/api/reject?post_id=${post.id}`,
     });
   }
 }
